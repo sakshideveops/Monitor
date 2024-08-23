@@ -1,1 +1,102 @@
-# monitor
+#!/bin/bash
+
+# Function to display CPU and Memory usage
+show_cpu_mem() {
+    echo "==== CPU and Memory Usage ===="
+    top -bn1 | head -n 10
+}
+
+# Function to display Disk I/O statistics
+show_disk_io() {
+    echo "==== Disk I/O Statistics ===="
+    iostat -dx 1 1
+}
+
+# Function to display Disk Usage
+show_disk_usage() {
+    echo "==== Disk Usage ===="
+    df -h
+}
+
+# Function to display Network Statistics
+show_network() {
+    echo "==== Network Statistics ===="
+    netstat -i
+}
+
+# Function to display the full dashboard
+show_dashboard() {
+    while true; do
+        clear
+        show_cpu_mem
+        echo ""
+        show_disk_io
+        echo ""
+        show_disk_usage
+        echo ""
+        show_network
+        sleep 5  # Refresh every 5 seconds
+    done
+}
+
+# Check for command-line switches
+while getopts "cmdun" opt; do
+    case $opt in
+        c)
+            show_cpu_mem
+            exit 0
+            ;;
+        m)
+            show_disk_io
+            exit 0
+            ;;
+        d)
+            show_disk_usage
+            exit 0
+            ;;
+        n)
+            show_network
+            exit 0
+            ;;
+        u)
+            show_dashboard
+            exit 0
+            ;;
+        *)
+            echo "Usage: $0 [-c] [-m] [-d] [-n] [-u]"
+            echo "  -c: Show CPU and Memory usage"
+            echo "  -m: Show Disk I/O statistics"
+            echo "  -d: Show Disk Usage"
+            echo "  -n: Show Network Statistics"
+            echo "  -u: Show full dashboard and refresh every few seconds"
+            exit 1
+            ;;
+    esac
+done
+
+# If no arguments are provided, show full dashboard by default
+if [ $OPTIND -eq 1 ]; then
+    show_dashboard
+fi
+
+
+For Execution
+chmod +x monitor.sh
+
+Install pacakage manager
+sudo yum install git -y
+
+
+Examples of calling individual parts of the dashboard
+
+Run the Script
+./monitor.sh
+
+Show cpu and Memory Usage
+./monitor.sh -c
+
+Show Disk I/O usage
+./monitor.sh -d
+
+Show Network Statistics
+./monitor.sh -n
