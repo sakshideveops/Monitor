@@ -1,0 +1,20 @@
+For Execution
+chmod +x monitor.sh
+
+Install pacakage manager
+sudo yum install git -y
+
+
+Examples of calling individual parts of the dashboard
+
+Run the Script
+./monitor.sh
+
+Show cpu and Memory Usage
+./monitor.sh -c
+
+Show Disk I/O usage
+./monitor.sh -d
+
+Show Network Statistics
+./monitor.sh -n
